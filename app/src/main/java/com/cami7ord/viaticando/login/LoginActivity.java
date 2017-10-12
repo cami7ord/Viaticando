@@ -1,11 +1,15 @@
-package com.cami7ord.viaticando;
+package com.cami7ord.viaticando.login;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class SplashActivity extends AppCompatActivity {
+import com.cami7ord.viaticando.R;
+
+public class LoginActivity extends AppCompatActivity {
+
+    //private LoginPresenter mLoginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
