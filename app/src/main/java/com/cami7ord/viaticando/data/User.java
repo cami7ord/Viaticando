@@ -1,10 +1,10 @@
 package com.cami7ord.viaticando.data;
 
-import com.cami7ord.viaticando.login.LoginContract;
+import com.cami7ord.viaticando.login.LoginInteractor;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User implements LoginContract.Model {
+public class User {
 
     public User() {
 
@@ -90,12 +90,6 @@ public class User implements LoginContract.Model {
         public void setName(String name) {
             this.name = name;
         }
-    }
-
-
-    @Override
-    public User authUser(String email, String password) {
-        return new User();
     }
 
 }
