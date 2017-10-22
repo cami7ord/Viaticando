@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".login.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -21,7 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".trips.TripsActivity"></activity>
+
+        <activity android:name=".trips.TripsActivity"
+                android:label="Mis viajes"
+                android:theme="@style/NormalTheme"/>
+
     </application>
 
 </manifest>

@@ -20,4 +20,10 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="NormalTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>
