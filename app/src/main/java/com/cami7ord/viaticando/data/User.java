@@ -1,6 +1,5 @@
 package com.cami7ord.viaticando.data;
 
-import com.cami7ord.viaticando.login.LoginInteractor;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

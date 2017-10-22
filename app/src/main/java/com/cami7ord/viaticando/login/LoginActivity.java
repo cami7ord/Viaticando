@@ -1,18 +1,16 @@
 package com.cami7ord.viaticando.login;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
+import com.cami7ord.viaticando.BaseActivity;
 import com.cami7ord.viaticando.R;
 
-public class LoginActivity extends AppCompatActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
 
-    private ProgressBar progressBar;
     private EditText username;
     private EditText password;
     private LoginPresenter presenter;
@@ -23,7 +21,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
         setContentView(R.layout.activity_splash);
 
-        progressBar = findViewById(R.id.progress);
         username = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
         findViewById(R.id.login_button).setOnClickListener(this);
@@ -56,12 +53,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        showProgressDialog();
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        hideProgressDialog();
     }
 
     @Override
