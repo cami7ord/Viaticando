@@ -28,7 +28,8 @@
         <activity
             android:name=".expenses.ExpensesActivity"
             android:label="@string/title_activity_expenses"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".trips.TripsActivity"/>
     </application>
 
 </manifest>
