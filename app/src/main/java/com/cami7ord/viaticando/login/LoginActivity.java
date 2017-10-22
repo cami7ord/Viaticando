@@ -1,13 +1,14 @@
 package com.cami7ord.viaticando.login;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.cami7ord.viaticando.BaseActivity;
 import com.cami7ord.viaticando.R;
+import com.cami7ord.viaticando.trips.TripsActivity;
 
 public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
 
@@ -73,9 +74,8 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
 
     @Override
     public void navigateToHome() {
-        Log.e("Navigate to home", "Ok");
-        //startActivity(new Intent(this, MainActivity.class));
-        //finish();
+        startActivity(new Intent(this, TripsActivity.class));
+        finish();
     }
 
     @Override
