@@ -1,21 +1,27 @@
 package com.cami7ord.viaticando.trips;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cami7ord.viaticando.R;
+import com.cami7ord.viaticando.expenses.ExpensesActivity;
 
 import java.util.List;
 
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
 
+    private Context mContext;
     private List mDataset;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        RelativeLayout mTripLayout;
         TextView mTripName;
         TextView mTripDates;
         TextView mTripStatus;
@@ -23,6 +29,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         ViewHolder(View v) {
             super(v);
+            mTripLayout = v.findViewById(R.id.trip_layout);
             mTripName = v.findViewById(R.id.trip_name);
             mTripDates = v.findViewById(R.id.trip_date);
             mTripStatus = v.findViewById(R.id.trip_status);
@@ -31,7 +38,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    TripsAdapter(List myDataset) {
+    TripsAdapter(Context context, List myDataset) {
+        mContext = context;
         mDataset = myDataset;
     }
 
@@ -53,6 +61,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         // - replace the contents of the view with that element
         //holder.mTripName
         //holder.mTextView.setText(mDataset[position]);
+        holder.mTripLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent expenses = new Intent(mContext, ExpensesActivity.class);
+                mContext.startActivity(expenses);
+            }
+        });
 
     }
 

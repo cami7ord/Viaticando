@@ -36,7 +36,7 @@ public class TripsActivity extends BaseActivity {
         trips.add("A");
         trips.add("B");
         trips.add("C");
-        mAdapter = new TripsAdapter(trips);
+        mAdapter = new TripsAdapter(this, trips);
         mRecyclerView.setAdapter(mAdapter);
 
     }
