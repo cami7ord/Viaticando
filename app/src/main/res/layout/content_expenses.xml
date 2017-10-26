@@ -23,34 +23,32 @@
                 android:id="@+id/trip_detail_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
                 android:text="Desde 05/10/17 - Hasta 10/10/17"/>
 
-            <TextView
-                android:id="@+id/trip_detail_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Aprobado"
-                android:drawableLeft="@drawable/ic_check_circle_black_24dp"
-                android:drawablePadding="4dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saldo del viaje"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/trip_detail_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
+                android:fontFamily="sans-serif-light"
                 android:text="$500.000"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Gastos reportados"/>
 
         </LinearLayout>

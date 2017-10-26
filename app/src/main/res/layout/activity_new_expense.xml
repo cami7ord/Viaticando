@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/new_expense_img"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="136dp"
+            android:layout_height="136dp"
             android:scaleType="centerCrop"/>
 
         <android.support.design.widget.TextInputLayout
