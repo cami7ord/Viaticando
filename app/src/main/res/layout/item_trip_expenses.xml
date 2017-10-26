@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/trip_layout"
+    android:id="@+id/expense_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:padding="16dp">
 
     <TextView
-        android:text="Medellin"
-        android:id="@+id/trip_name"
+        android:text="Almuerzo"
+        android:id="@+id/expense_name"
         android:textSize="16sp"
         android:fontFamily="sans-serif-medium"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/trip_date"
+        android:id="@+id/expense_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Desde 05/10/17 - Hasta 10/10/17"
-        android:layout_below="@id/trip_name"/>
+        android:text="Alimentación"
+        android:layout_below="@id/expense_name"/>
 
     <TextView
-        android:id="@+id/trip_status"
+        android:id="@+id/expense_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="Aprobado"
         android:drawableLeft="@drawable/ic_check_circle_black_24dp"
         android:drawablePadding="4dp"
-        android:layout_below="@id/trip_date"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
     <TextView
-        android:id="@+id/trip_amount"
+        android:id="@+id/expense_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$500.000"
-        android:textSize="20sp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/expense_status"
+        android:layout_toStartOf="@id/expense_status"
+        android:layout_marginRight="16dp"
+        android:text="$ 25.000"
+        android:textSize="20sp" />
 
 </RelativeLayout>

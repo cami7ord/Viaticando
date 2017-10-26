@@ -24,10 +24,12 @@
         <activity
             android:name=".trips.TripsActivity"
             android:label="Mis viajes"
+            android:screenOrientation="portrait"
             android:theme="@style/NormalTheme" />
         <activity
             android:name=".expenses.ExpensesActivity"
             android:label="@string/title_activity_expenses"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".trips.TripsActivity"/>
     </application>

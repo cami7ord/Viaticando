@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#F5F5F5</color>
     <color name="colorAccent">#212121</color>
     <color name="colorText">#505050</color>
+    <color name="colorBackground">#DDDDDD</color>
 
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
@@ -11,4 +12,5 @@
     <color name="green">#43CE43</color>
 
     <color name="black_overlay">#66000000</color>
+
 </resources>

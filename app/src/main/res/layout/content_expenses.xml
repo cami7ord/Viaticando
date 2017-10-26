@@ -8,4 +8,69 @@
     tools:context="com.cami7ord.viaticando.expenses.ExpensesActivity"
     tools:showIn="@layout/activity_expenses">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trip_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Desde 05/10/17 - Hasta 10/10/17"/>
+
+            <TextView
+                android:id="@+id/trip_detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Aprobado"
+                android:drawableLeft="@drawable/ic_check_circle_black_24dp"
+                android:drawablePadding="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saldo del viaje"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/trip_detail_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:text="$500.000"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gastos reportados"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/colorBackground"
+            android:gravity="center_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:paddingLeft="24dp"
+            android:text="TOTAL: $ 120.000"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trip_detail_recycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
