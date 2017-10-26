@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cami7ord.viaticando">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,9 +33,14 @@
         <activity
             android:name=".expenses.ExpensesActivity"
             android:label="@string/title_activity_expenses"
+            android:parentActivityName=".trips.TripsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".trips.TripsActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".expenses.NewExpenseActivity"
+            android:theme="@style/NormalTheme"
+            android:label="Reportar gasto"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -53,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:text="Gastos reportados"/>
 
-
         </LinearLayout>
 
         <TextView
