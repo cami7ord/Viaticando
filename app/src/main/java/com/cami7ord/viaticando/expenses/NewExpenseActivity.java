@@ -1,12 +1,15 @@
 package com.cami7ord.viaticando.expenses;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.cami7ord.viaticando.BaseActivity;
@@ -35,6 +38,14 @@ public class NewExpenseActivity extends BaseActivity {
         ((ImageView)findViewById(R.id.new_expense_img)).setImageBitmap(imageBitmap);
 
         uploadExpensePhoto(imageBitmap);
+
+        findViewById(R.id.new_expense_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new CheckDoneDialog();
+                newFragment.show(getSupportFragmentManager(), "missiles");
+            }
+        });
     }
 
     private void uploadExpensePhoto(Bitmap bitmap) {
