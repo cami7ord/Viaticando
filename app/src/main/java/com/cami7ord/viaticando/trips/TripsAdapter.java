@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cami7ord.viaticando.Constants;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
 import com.cami7ord.viaticando.data.Trip;
 import com.cami7ord.viaticando.expenses.ExpensesActivity;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
     private Context mContext;
     private List<Trip> mDataset;
+    private Gson mGson;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -43,6 +46,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     TripsAdapter(Context context, List<Trip> myDataset) {
         mContext = context;
         mDataset = myDataset;
+        mGson = new Gson();
     }
 
     // Create new views (invoked by the layout manager)
@@ -61,11 +65,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Trip trip = mDataset.get(position);
+        final Trip trip = mDataset.get(position);
 
         holder.mTripName.setText(trip.getDestiny());
         holder.mTripDates.setText("Desde " + Utilities.simpleServerDateFormat(trip.getStartDate()) +
-                                    "- Hasta " + Utilities.simpleServerDateFormat(trip.getEndDate()));
+                                    " - Hasta " + Utilities.simpleServerDateFormat(trip.getEndDate()));
         holder.mTripAmount.setText(Utilities.formatPrice(trip.getBudget()));
 
         if(trip.getStatusId() == 1) {
@@ -79,6 +83,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent expenses = new Intent(mContext, ExpensesActivity.class);
+                expenses.putExtra(Constants.EXTRA_TRIP_OBJ, mGson.toJson(trip));
                 mContext.startActivity(expenses);
             }
         });

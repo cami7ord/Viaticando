@@ -89,4 +89,19 @@ public class Trip {
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "tripId=" + tripId +
+                ", expensesIds=" + expensesIds +
+                ", budget=" + budget +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", destiny='" + destiny + '\'' +
+                ", description='" + description + '\'' +
+                ", statusId=" + statusId +
+                ", employeeId=" + employeeId +
+                '}';
+    }
 }

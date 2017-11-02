@@ -47,6 +47,8 @@ public class TripsActivity extends BaseActivity {
 
     private void downloadTrips(int userId) {
 
+        showProgressDialog();
+
         String url = BuildConfig.BASE_URL + "Trips";
 
         MyJsonArrayRequest jsonRequest = new MyJsonArrayRequest
@@ -107,5 +109,9 @@ public class TripsActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        hideProgressDialog();
+
     }
+
 }

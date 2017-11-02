@@ -54,6 +54,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/trip_detail_total"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@color/colorBackground"
