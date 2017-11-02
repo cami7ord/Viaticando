@@ -55,6 +55,14 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ExpensesAdapter.ViewHolder holder, int position) {
+
+        if(position > 2) {
+            holder.mExpenseName.setText("Taxi al aeropuerto");
+            holder.mExpenseCategory.setText("Transporte");
+            holder.mExpenseAmount.setText("$ 15.000");
+            holder.mExpenseStatus.setText("Pendiente");
+            holder.mExpenseStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error_24dp, 0, 0, 0);
+        }
         //holder.mTripName
         //holder.mTextView.setText(mDataset[position]);
         holder.mExpenseLayout.setOnClickListener(new View.OnClickListener() {

@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,6 +26,8 @@ public class ExpensesActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private List<String> expenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +59,10 @@ public class ExpensesActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        List<String> expenses = new ArrayList<>();
+        expenses = new ArrayList<>();
+
         expenses.add("A");
         expenses.add("B");
-        expenses.add("C");
         mAdapter = new ExpensesAdapter(this, expenses);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -85,4 +88,11 @@ public class ExpensesActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.e("ExpensesActivity", "onPostResume called");
+        expenses.add("C");
+        mAdapter.notifyDataSetChanged();
+    }
 }
