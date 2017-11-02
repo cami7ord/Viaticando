@@ -16,15 +16,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
 import com.cami7ord.viaticando.BuildConfig;
+import com.cami7ord.viaticando.MyJsonArrayRequest;
 import com.cami7ord.viaticando.MyJsonObjectRequest;
 import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
+import com.cami7ord.viaticando.data.Category;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,18 +52,12 @@ public class NewExpenseActivity extends BaseActivity {
         ((ImageView)findViewById(R.id.new_expense_img)).setImageBitmap(imageBitmap);
 
         uploadExpensePhoto(imageBitmap);
+        downloadCategories();
 
         final Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
-
-
-        String[] ITEMS = {"Transporte", "Alimentación", "Otros"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner = findViewById(R.id.new_expense_category);
-        spinner.setAdapter(adapter);
 
         ((EditText)(findViewById(R.id.new_expense_date))).setText(day+"/"+month+"/"+year);
 
@@ -72,6 +69,59 @@ public class NewExpenseActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void downloadCategories() {
+
+        String url = BuildConfig.BASE_URL + "Categories";
+
+        MyJsonArrayRequest jsonRequest = new MyJsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("Categories Res:", response.toString());
+                        parseCategories(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+    }
+
+    private void parseCategories(JSONArray response) {
+
+        Category[] ITEMS = new Category[response.length()];
+        JSONObject jsonObject;
+
+        try {
+
+            for(int i=0 ; i<response.length() ; i++) {
+
+                jsonObject = response.getJSONObject(i);
+
+                Category category = new Category();
+                category.setCategoryId(jsonObject.getInt("categoryId"));
+                category.setName(jsonObject.getString("name"));
+                category.setAccountingNumber(jsonObject.getInt("accountingNumber"));
+
+                ITEMS[i] = category;
+            }
+
+            ArrayAdapter<Category> adapter = new ArrayAdapter<>(
+                    this, android.R.layout.simple_spinner_item, ITEMS);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner = findViewById(R.id.new_expense_category);
+            spinner.setAdapter(adapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void uploadExpensePhoto(Bitmap bitmap) {
