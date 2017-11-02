@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -66,8 +66,31 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trip_detail_recycler"
             android:scrollbars="vertical"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:id="@+id/trip_detail_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No has reportado ningún viaje"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:id="@+id/empty_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_above="@id/empty_text"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_empty_state_24dp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -12,16 +12,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
+import com.cami7ord.viaticando.BuildConfig;
 import com.cami7ord.viaticando.Constants;
+import com.cami7ord.viaticando.MyJsonArrayRequest;
+import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
 import com.cami7ord.viaticando.data.Trip;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +49,7 @@ public class ExpensesActivity extends BaseActivity {
     private Trip mTrip;
 
     //UI
+    private RelativeLayout mTripEmpty;
     private TextView mTripDates;
     private TextView mTripBudget;
     private TextView mTripTotal;
@@ -67,6 +77,7 @@ public class ExpensesActivity extends BaseActivity {
             }
         });
 
+        mTripEmpty = findViewById(R.id.trip_detail_empty);
         mTripDates = findViewById(R.id.trip_detail_date);
         mTripBudget = findViewById(R.id.trip_detail_amount);
         mTripTotal = findViewById(R.id.trip_detail_total);
@@ -94,12 +105,58 @@ public class ExpensesActivity extends BaseActivity {
 
         mTripBudget.setText(Utilities.formatPrice(mTrip.getBudget()));
 
-        expenses = new ArrayList<>();
+        setupExpenses(mTrip.getExpensesIds());
 
+    }
+
+    private void setupExpenses(List<Integer> expensesIds) {
+
+        if(expensesIds.isEmpty()) {
+
+            mTripEmpty.setVisibility(View.VISIBLE);
+
+        } else {
+
+            for(Integer integer : expensesIds) {
+
+                downloadExpenseInfo(integer);
+
+            }
+
+        }
+
+    }
+
+    private void downloadExpenseInfo(int integer) {
+
+        String url = BuildConfig.BASE_URL + "Trips/" + integer;
+
+        MyJsonArrayRequest jsonRequest = new MyJsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("Trips Res:", response.toString());
+                        parseExpenseResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+
+    }
+
+    private void parseExpenseResponse(JSONArray response) {
+
+        Log.e("Response Expense", response.toString());
+        /*
         expenses.add("A");
         expenses.add("B");
         mAdapter = new ExpensesAdapter(this, expenses);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
 
     }
 
