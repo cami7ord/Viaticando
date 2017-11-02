@@ -20,6 +20,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"http://viaticando.azurewebsites.net/api/"'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "BASE_URL", '"http://viaticando.azurewebsites.net/api/"'
         }
     }
 }
@@ -36,11 +42,11 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.firebase:firebase-storage:11.0.4'
     implementation 'com.google.firebase:firebase-auth:11.0.4'
+    implementation 'com.android.volley:volley:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
-
 
 apply plugin: 'com.google.gms.google-services'

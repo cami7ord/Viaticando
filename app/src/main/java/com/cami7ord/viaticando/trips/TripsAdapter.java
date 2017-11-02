@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cami7ord.viaticando.R;
+import com.cami7ord.viaticando.Utilities;
+import com.cami7ord.viaticando.data.Trip;
 import com.cami7ord.viaticando.expenses.ExpensesActivity;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
 
     private Context mContext;
-    private List mDataset;
+    private List<Trip> mDataset;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,7 +40,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    TripsAdapter(Context context, List myDataset) {
+    TripsAdapter(Context context, List<Trip> myDataset) {
         mContext = context;
         mDataset = myDataset;
     }
@@ -59,8 +61,20 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        //holder.mTripName
-        //holder.mTextView.setText(mDataset[position]);
+        Trip trip = mDataset.get(position);
+
+        holder.mTripName.setText(trip.getDestiny());
+        holder.mTripDates.setText("Desde " + Utilities.simpleServerDateFormat(trip.getStartDate()) +
+                                    "- Hasta " + Utilities.simpleServerDateFormat(trip.getEndDate()));
+        holder.mTripAmount.setText(Utilities.formatPrice(trip.getBudget()));
+
+        if(trip.getStatusId() == 1) {
+            holder.mTripStatus.setText("Aprobado");
+        } else {
+            holder.mTripStatus.setText("Pendiente");
+            holder.mTripStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error_24dp, 0, 0, 0);
+        }
+
         holder.mTripLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +82,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 mContext.startActivity(expenses);
             }
         });
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
