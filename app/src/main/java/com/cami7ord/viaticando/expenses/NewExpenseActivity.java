@@ -10,15 +10,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
+import com.cami7ord.viaticando.BuildConfig;
+import com.cami7ord.viaticando.MyJsonObjectRequest;
+import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
@@ -59,8 +67,9 @@ public class NewExpenseActivity extends BaseActivity {
         findViewById(R.id.new_expense_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new CheckDoneDialog();
-                newFragment.show(getSupportFragmentManager(), "missiles");
+
+                //createExpense();
+
             }
         });
     }
@@ -96,5 +105,55 @@ public class NewExpenseActivity extends BaseActivity {
                 hideProgressDialog();
             }
         });
+    }
+
+    private void createExpense(){
+
+        JSONObject body = createBody();
+
+        String url = BuildConfig.BASE_URL + "Trips";
+
+        MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
+                (Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("Trips Res:", response.toString());
+
+                        DialogFragment newFragment = new CheckDoneDialog();
+                        newFragment.show(getSupportFragmentManager(), "missiles");
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+
+    }
+
+    private JSONObject createBody() {
+
+        JSONObject body = new JSONObject();
+
+        try {
+
+            body.put("userId", 1);
+            body.put("authUserId", "");
+            body.put("firstName", "");
+            body.put("lastName", "");
+            body.put("email", "");
+            body.put("organizationId", 1);
+            body.put("isAdmin", false);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return body;
+
     }
 }
