@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -41,6 +43,12 @@ public class NewExpenseActivity extends BaseActivity {
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private MaterialSpinner spinner;
+    private String photoURL;
+
+    //UI
+    private TextView expenseValue;
+    private TextView expenseNit;
+    private TextView expenseDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +69,15 @@ public class NewExpenseActivity extends BaseActivity {
 
         ((EditText)(findViewById(R.id.new_expense_date))).setText(day+"/"+month+"/"+year);
 
+        expenseValue = findViewById(R.id.new_expense_value);
+        expenseNit = findViewById(R.id.new_expense_nit);
+        expenseDescription = findViewById(R.id.new_expense_description);
+
         findViewById(R.id.new_expense_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //createExpense();
+                createExpense();
 
             }
         });
@@ -150,8 +162,7 @@ public class NewExpenseActivity extends BaseActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Log.e("Upload", "Success:" + taskSnapshot.getDownloadUrl());
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                photoURL = taskSnapshot.getDownloadUrl().toString();
                 hideProgressDialog();
             }
         });
@@ -161,6 +172,8 @@ public class NewExpenseActivity extends BaseActivity {
 
         JSONObject body = createBody();
 
+        Log.e("BODY", body.toString());
+
         String url = BuildConfig.BASE_URL + "Trips";
 
         MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
@@ -168,7 +181,7 @@ public class NewExpenseActivity extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Log.e("Trips Res:", response.toString());
+                        Log.e("Expense Created:", response.toString());
 
                         DialogFragment newFragment = new CheckDoneDialog();
                         newFragment.show(getSupportFragmentManager(), "missiles");
@@ -178,6 +191,7 @@ public class NewExpenseActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        Log.e("Expense Error:", error.toString());
                     }
                 });
 
@@ -191,13 +205,13 @@ public class NewExpenseActivity extends BaseActivity {
 
         try {
 
-            body.put("userId", 1);
-            body.put("authUserId", "");
-            body.put("firstName", "");
-            body.put("lastName", "");
-            body.put("email", "");
-            body.put("organizationId", 1);
-            body.put("isAdmin", false);
+            body.put("tripId", 1);
+            body.put("nit", expenseNit.getText().toString());
+            body.put("date", "2017-11-03T00:14:36.884Z");
+            body.put("description", expenseDescription.getText().toString());
+            body.put("value", expenseValue.getText().toString());
+            body.put("photoURL", Uri.encode(photoURL));
+            body.put("categoryId", ((Category)spinner.getSelectedItem()).getCategoryId());
 
         } catch (JSONException e) {
             e.printStackTrace();
