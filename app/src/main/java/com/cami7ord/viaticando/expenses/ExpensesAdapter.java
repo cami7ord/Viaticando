@@ -2,6 +2,7 @@ package com.cami7ord.viaticando.expenses;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cami7ord.viaticando.R;
+import com.cami7ord.viaticando.Utilities;
+import com.cami7ord.viaticando.data.Expense;
 
 import java.util.List;
 
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHolder> {
 
     private Context mContext;
-    private List mDataset;
+    private List<Expense> mDataset;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,18 +59,21 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ExpensesAdapter.ViewHolder holder, int position) {
 
-        if(position > 2) {
-            holder.mExpenseName.setText("Taxi al aeropuerto");
-            holder.mExpenseCategory.setText("Transporte");
-            holder.mExpenseAmount.setText("$ 15.000");
+        Expense expense = mDataset.get(position);
+
+        holder.mExpenseName.setText(expense.getDescription());
+        holder.mExpenseCategory.setText("" + expense.getCategoryId());
+        holder.mExpenseAmount.setText(Utilities.formatPrice(expense.getValue()));
+
+        if(!expense.isApproved()) {
             holder.mExpenseStatus.setText("Pendiente");
             holder.mExpenseStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error_24dp, 0, 0, 0);
         }
-        //holder.mTripName
-        //holder.mTextView.setText(mDataset[position]);
+
         holder.mExpenseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("Expense", "Clicked");
                 //Intent expenses = new Intent(mContext, ExpensesActivity.class);
                 //mContext.startActivity(expenses);
             }

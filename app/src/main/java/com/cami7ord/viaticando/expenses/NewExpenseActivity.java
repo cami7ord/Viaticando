@@ -174,7 +174,7 @@ public class NewExpenseActivity extends BaseActivity {
 
         Log.e("BODY", body.toString());
 
-        String url = BuildConfig.BASE_URL + "Trips";
+        String url = BuildConfig.BASE_URL + "Expenses";
 
         MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
                 (Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
@@ -210,7 +210,7 @@ public class NewExpenseActivity extends BaseActivity {
             body.put("date", "2017-11-03T00:14:36.884Z");
             body.put("description", expenseDescription.getText().toString());
             body.put("value", expenseValue.getText().toString());
-            body.put("photoURL", Uri.encode(photoURL));
+            body.put("photoURL", Uri.decode(photoURL));
             body.put("categoryId", ((Category)spinner.getSelectedItem()).getCategoryId());
 
         } catch (JSONException e) {

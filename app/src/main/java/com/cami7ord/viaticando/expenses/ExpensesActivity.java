@@ -21,15 +21,18 @@ import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
 import com.cami7ord.viaticando.BuildConfig;
 import com.cami7ord.viaticando.Constants;
-import com.cami7ord.viaticando.MyJsonArrayRequest;
+import com.cami7ord.viaticando.MyJsonObjectRequest;
 import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
+import com.cami7ord.viaticando.data.Expense;
 import com.cami7ord.viaticando.data.Trip;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpensesActivity extends BaseActivity {
@@ -40,7 +43,7 @@ public class ExpensesActivity extends BaseActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private List<String> expenses;
+    private List<Expense> expenses;
     private Trip mTrip;
 
     //UI
@@ -100,6 +103,10 @@ public class ExpensesActivity extends BaseActivity {
 
         mTripBudget.setText(Utilities.formatPrice(mTrip.getBudget()));
 
+        expenses = new ArrayList<>();
+        mAdapter = new ExpensesAdapter(this, expenses);
+        mRecyclerView.setAdapter(mAdapter);
+
         setupExpenses(mTrip.getExpensesIds());
 
     }
@@ -124,12 +131,12 @@ public class ExpensesActivity extends BaseActivity {
 
     private void downloadExpenseInfo(int integer) {
 
-        String url = BuildConfig.BASE_URL + "Trips/" + integer;
+        String url = BuildConfig.BASE_URL + "Expenses/" + integer;
 
-        MyJsonArrayRequest jsonRequest = new MyJsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.e("Trips Res:", response.toString());
                         parseExpenseResponse(response);
                     }
@@ -144,14 +151,28 @@ public class ExpensesActivity extends BaseActivity {
 
     }
 
-    private void parseExpenseResponse(JSONArray response) {
+    private void parseExpenseResponse(JSONObject response) {
 
         Log.e("Response Expense", response.toString());
-        /*
-        expenses.add("A");
-        expenses.add("B");
-        mAdapter = new ExpensesAdapter(this, expenses);
-        mRecyclerView.setAdapter(mAdapter);*/
+        Expense expense = new Expense();
+
+        try {
+            expense.setExpenseId(response.getInt("expenseId"));
+            expense.setTripId(response.getInt("tripId"));
+            expense.setNit(response.getString("nit"));
+            expense.setDate(response.getString("date"));
+            expense.setDescription(response.getString("description"));
+            expense.setValue(response.getDouble("value"));
+            expense.setApproved(response.getBoolean("approved"));
+            expense.setPhotoURL(response.getString("photoURL"));
+            expense.setCategoryId(response.getInt("categoryId"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        expenses.add(expense);
+        mAdapter.notifyDataSetChanged();
 
     }
 

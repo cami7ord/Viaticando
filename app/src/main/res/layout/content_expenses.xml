@@ -66,14 +66,14 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trip_detail_recycler"
             android:scrollbars="vertical"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:id="@+id/trip_detail_empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/empty_text"
