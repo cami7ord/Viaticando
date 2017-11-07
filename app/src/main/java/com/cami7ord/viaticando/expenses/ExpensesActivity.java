@@ -41,6 +41,7 @@ import java.util.List;
 public class ExpensesActivity extends BaseActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_NEW_EXPENSES = 2;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -55,6 +56,8 @@ public class ExpensesActivity extends BaseActivity {
     private TextView mTripDates;
     private TextView mTripBudget;
     private TextView mTripTotal;
+
+    private String tripObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +77,6 @@ public class ExpensesActivity extends BaseActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        //.setAction("Action", null).show();
             }
         });
 
@@ -91,6 +92,7 @@ public class ExpensesActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
+        tripObject = getIntent().getStringExtra(Constants.EXTRA_TRIP_OBJ);
         downloadCategories();
 
     }
@@ -107,7 +109,7 @@ public class ExpensesActivity extends BaseActivity {
                     public void onResponse(JSONArray response) {
                         Log.e("Categories Res:", response.toString());
                         categories = parseCategories(response);
-                        setupTrip(getIntent().getStringExtra(Constants.EXTRA_TRIP_OBJ));
+                        setupTrip(tripObject);
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -243,10 +245,58 @@ public class ExpensesActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Intent intent = new Intent(ExpensesActivity.this, NewExpenseActivity.class);
             intent.putExtra("image", data.getExtras());
-            startActivity(intent);
+            intent.putExtra("trip_id", mTrip.getTripId());
+            startActivityForResult(intent, REQUEST_NEW_EXPENSES);
+        }
+
+        if (requestCode == REQUEST_NEW_EXPENSES && resultCode == RESULT_OK) {
+            Log.e("Expenses Activity", "Update");
+            updateExpenses();
+        }
+    }
+
+    private void updateExpenses() {
+        showProgressDialog();
+
+        String url = BuildConfig.BASE_URL + "Trips/" + mTrip.getTripId();
+
+        MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("Trips Res:", response.toString());
+                        mTripEmpty.setVisibility(View.VISIBLE);
+                        parseExpensesIds(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+
+    }
+
+    private void parseExpensesIds(JSONObject response) {
+
+        try {
+
+            JSONArray expenses = response.getJSONArray("expensesIds");
+
+            for(int i=0 ; i<expenses.length() ; i++ ) {
+                downloadExpenseInfo(expenses.getInt(i));
+            }
+
+            hideProgressDialog();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

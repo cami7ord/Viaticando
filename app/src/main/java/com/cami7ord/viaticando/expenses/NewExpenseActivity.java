@@ -77,7 +77,7 @@ public class NewExpenseActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                createExpense();
+                createExpense(getIntent().getIntExtra("trip_id", 0));
 
             }
         });
@@ -168,9 +168,9 @@ public class NewExpenseActivity extends BaseActivity {
         });
     }
 
-    private void createExpense(){
+    private void createExpense(final int tripId){
 
-        JSONObject body = createBody();
+        JSONObject body = createBody(tripId);
 
         Log.e("BODY", body.toString());
 
@@ -199,13 +199,13 @@ public class NewExpenseActivity extends BaseActivity {
 
     }
 
-    private JSONObject createBody() {
+    private JSONObject createBody(int tripId) {
 
         JSONObject body = new JSONObject();
 
         try {
 
-            body.put("tripId", 1);
+            body.put("tripId", tripId);
             body.put("nit", expenseNit.getText().toString());
             body.put("date", "2017-11-03T00:14:36.884Z");
             body.put("description", expenseDescription.getText().toString());
