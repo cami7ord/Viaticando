@@ -269,7 +269,7 @@ public class ExpensesActivity extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("Trips Res:", response.toString());
-                        mTripEmpty.setVisibility(View.VISIBLE);
+                        mTripEmpty.setVisibility(View.GONE);
                         parseExpensesIds(response);
                     }
                 }, new Response.ErrorListener() {

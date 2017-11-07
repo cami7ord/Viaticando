@@ -1,29 +1,18 @@
 package com.cami7ord.viaticando.expenses;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.cami7ord.viaticando.BaseActivity;
-import com.cami7ord.viaticando.BuildConfig;
-import com.cami7ord.viaticando.MyJsonObjectRequest;
-import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
 import com.cami7ord.viaticando.data.Expense;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class DetailActivity extends BaseActivity {
 
@@ -43,6 +32,10 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.activity_detail);
         Log.e("Detail Activity", "ID: " + getIntent().getIntExtra("expenseId", 0));
 
+        if(null != getActionBar()) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         expenseTitle = findViewById(R.id.expense_name);
         expenseCategory = findViewById(R.id.expense_category);
         expenseValue = findViewById(R.id.expense_amount);
@@ -58,6 +51,17 @@ public class DetailActivity extends BaseActivity {
         setExpenseInfo(new Gson().fromJson(json, Expense.class));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setExpenseInfo(Expense expense) {
 
         expenseTitle.setText(expense.getDescription());
@@ -71,8 +75,9 @@ public class DetailActivity extends BaseActivity {
         expenseNit.setText(expense.getNit());
         expenseDescription.setText(expense.getDescription());
 
-        Log.e("Img URL: ", expense.getPhotoURL());
-        Picasso.with(this).load(expense.getPhotoURL()).into(expenseImage);
+        String url = expense.getPhotoURL();
+        Log.e("Picasso url", url);
+        Picasso.with(this).load(url).placeholder(R.drawable.img_placeholder).into(expenseImage);
 
     }
 }

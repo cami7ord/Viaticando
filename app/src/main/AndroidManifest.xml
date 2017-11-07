@@ -45,6 +45,7 @@
             android:name=".expenses.DetailActivity"
             android:label="Detalle"
             android:screenOrientation="portrait"
+            android:parentActivityName="com.cami7ord.viaticando.expenses.ExpensesActivity"
             android:theme="@style/NormalTheme"/>
     </application>
 

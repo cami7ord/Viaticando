@@ -18,47 +18,61 @@
 
             <include layout="@layout/item_trip_expenses"/>
 
-            <ImageView
-                android:id="@+id/expense_img"
-                android:layout_width="136dp"
-                android:layout_height="136dp"
-                android:scaleType="centerCrop"/>
-            
-            <TextView
-                android:text="Fecha"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"/>
+                android:orientation="vertical"
+                android:paddingLeft="16dp">
 
-            <TextView
-                android:id="@+id/expense_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"/>
+                <ImageView
+                    android:id="@+id/expense_img"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_marginBottom="16dp"
+                    android:scaleType="centerCrop"/>
 
-            <TextView
-                android:text="NIT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"/>
+                <TextView
+                    android:text="Fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"/>
 
-            <TextView
-                android:id="@+id/expense_nit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"/>
+                <TextView
+                    android:id="@+id/expense_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
 
-            <TextView
-                android:text="Descripción"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"/>
+                <TextView
+                    android:text="NIT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"/>
 
-            <TextView
-                android:id="@+id/expense_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"/>
+                <TextView
+                    android:id="@+id/expense_nit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:text="Descripción"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:id="@+id/expense_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
