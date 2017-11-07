@@ -17,10 +17,6 @@ public final class Utilities {
         throw new AssertionError();
     }
 
-    public static String formatDate(String date) {
-        return date;
-    }
-
     // ------------- // FORMAT CURRENCY // ---------------------//
     private static final NumberFormat DEFAULT_FORMAT;
     private static final DecimalFormatSymbols OTHER_SYMBOLS;

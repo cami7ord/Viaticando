@@ -1,6 +1,7 @@
 package com.cami7ord.viaticando.expenses;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
 import com.cami7ord.viaticando.data.Category;
 import com.cami7ord.viaticando.data.Expense;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     private Context mContext;
     private List<Expense> mDataset;
     private Category[] mCategories;
+    private Gson mGson;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,6 +40,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
             mExpenseCategory = v.findViewById(R.id.expense_category);
             mExpenseStatus = v.findViewById(R.id.expense_status);
             mExpenseAmount = v.findViewById(R.id.expense_amount);
+
         }
     }
 
@@ -45,6 +49,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
         mContext = context;
         mDataset = myDataset;
         mCategories = categories;
+        mGson = new Gson();
     }
 
     // Create new views (invoked by the layout manager)
@@ -62,7 +67,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ExpensesAdapter.ViewHolder holder, int position) {
 
-        Expense expense = mDataset.get(position);
+        final Expense expense = mDataset.get(position);
 
         for(int i=0 ; i<mCategories.length ; i++) {
             if(mCategories[i].getCategoryId() == expense.getCategoryId()) {
@@ -82,8 +87,9 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Log.e("Expense", "Clicked");
-                //Intent expenses = new Intent(mContext, ExpensesActivity.class);
-                //mContext.startActivity(expenses);
+                Intent expenses = new Intent(mContext, DetailActivity.class);
+                expenses.putExtra("expenseObject", mGson.toJson(expense));
+                mContext.startActivity(expenses);
             }
         });
 

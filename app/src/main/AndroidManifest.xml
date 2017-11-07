@@ -36,11 +36,16 @@
             android:parentActivityName=".trips.TripsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".expenses.NewExpenseActivity"
-            android:theme="@style/NormalTheme"
+        <activity
+            android:name=".expenses.NewExpenseActivity"
             android:label="Reportar gasto"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/NormalTheme" />
+        <activity
+            android:name=".expenses.DetailActivity"
+            android:label="Detalle"
+            android:screenOrientation="portrait"
+            android:theme="@style/NormalTheme"/>
     </application>
 
 </manifest>

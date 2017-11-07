@@ -210,7 +210,7 @@ public class NewExpenseActivity extends BaseActivity {
             body.put("date", "2017-11-03T00:14:36.884Z");
             body.put("description", expenseDescription.getText().toString());
             body.put("value", expenseValue.getText().toString());
-            body.put("photoURL", Uri.decode(photoURL));
+            body.put("photoURL", photoURL);//Uri.decode(photoURL));
             body.put("categoryId", ((Category)spinner.getSelectedItem()).getCategoryId());
 
         } catch (JSONException e) {
