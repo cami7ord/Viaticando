@@ -58,6 +58,7 @@ public class ExpensesActivity extends BaseActivity {
     private TextView mTripTotal;
 
     private String tripObject;
+    private double tripExpensesTotal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,6 +231,9 @@ public class ExpensesActivity extends BaseActivity {
         expenses.add(expense);
         mAdapter.notifyDataSetChanged();
 
+        tripExpensesTotal += expense.getValue();
+        mTripTotal.setText("Total: " + Utilities.formatPrice(tripExpensesTotal));
+
     }
 
     @Override
@@ -261,6 +265,8 @@ public class ExpensesActivity extends BaseActivity {
 
     private void updateExpenses() {
         showProgressDialog();
+
+        tripExpensesTotal = 0;
 
         String url = BuildConfig.BASE_URL + "Trips/" + mTrip.getTripId();
 
