@@ -7,12 +7,21 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
+import com.cami7ord.viaticando.BuildConfig;
+import com.cami7ord.viaticando.MyJsonObjectRequest;
+import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
 import com.cami7ord.viaticando.data.Expense;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DetailActivity extends BaseActivity {
 
@@ -65,7 +74,6 @@ public class DetailActivity extends BaseActivity {
     private void setExpenseInfo(Expense expense) {
 
         expenseTitle.setText(expense.getDescription());
-        expenseCategory.setText("" + expense.getCategoryId());
         expenseValue.setText(Utilities.formatPrice(expense.getValue()));
         if(!expense.isApproved()) {
             expenseStatus.setText("Pendiente");
@@ -79,5 +87,37 @@ public class DetailActivity extends BaseActivity {
         Log.e("Picasso url", url);
         Picasso.with(this).load(url).placeholder(R.drawable.img_placeholder).into(expenseImage);
 
+        updateCategory(expense.getCategoryId());
+
+    }
+
+    private void updateCategory(int categoryId) {
+
+        String url = BuildConfig.BASE_URL + "Categories/" + categoryId;
+
+        MyJsonObjectRequest jsonRequest = new MyJsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("Trips Res:", response.toString());
+                        parseCategoryResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+
+    }
+
+    private void parseCategoryResponse(JSONObject response) {
+        try {
+            expenseCategory.setText(response.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
