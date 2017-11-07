@@ -21,14 +21,17 @@ import com.android.volley.VolleyError;
 import com.cami7ord.viaticando.BaseActivity;
 import com.cami7ord.viaticando.BuildConfig;
 import com.cami7ord.viaticando.Constants;
+import com.cami7ord.viaticando.MyJsonArrayRequest;
 import com.cami7ord.viaticando.MyJsonObjectRequest;
 import com.cami7ord.viaticando.MyRequestQueue;
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
+import com.cami7ord.viaticando.data.Category;
 import com.cami7ord.viaticando.data.Expense;
 import com.cami7ord.viaticando.data.Trip;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +48,7 @@ public class ExpensesActivity extends BaseActivity {
 
     private List<Expense> expenses;
     private Trip mTrip;
+    private Category[] categories;
 
     //UI
     private RelativeLayout mTripEmpty;
@@ -87,8 +91,58 @@ public class ExpensesActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        setupTrip(getIntent().getStringExtra(Constants.EXTRA_TRIP_OBJ));
+        downloadCategories();
 
+    }
+
+    private void downloadCategories() {
+
+        showProgressDialog();
+
+        String url = BuildConfig.BASE_URL + "Categories";
+
+        MyJsonArrayRequest jsonRequest = new MyJsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("Categories Res:", response.toString());
+                        categories = parseCategories(response);
+                        setupTrip(getIntent().getStringExtra(Constants.EXTRA_TRIP_OBJ));
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        MyRequestQueue.getInstance(this).getRequestQueue().add(jsonRequest);
+    }
+
+    private Category[] parseCategories(JSONArray response) {
+
+        Category[] ITEMS = new Category[response.length()];
+        JSONObject jsonObject;
+
+        try {
+
+            for(int i=0 ; i<response.length() ; i++) {
+
+                jsonObject = response.getJSONObject(i);
+
+                Category category = new Category();
+                category.setCategoryId(jsonObject.getInt("categoryId"));
+                category.setName(jsonObject.getString("name"));
+                category.setAccountingNumber(jsonObject.getInt("accountingNumber"));
+
+                ITEMS[i] = category;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return ITEMS;
     }
 
     private void setupTrip(String stringExtra) {
@@ -104,7 +158,7 @@ public class ExpensesActivity extends BaseActivity {
         mTripBudget.setText(Utilities.formatPrice(mTrip.getBudget()));
 
         expenses = new ArrayList<>();
-        mAdapter = new ExpensesAdapter(this, expenses);
+        mAdapter = new ExpensesAdapter(this, expenses, categories);
         mRecyclerView.setAdapter(mAdapter);
 
         setupExpenses(mTrip.getExpensesIds());

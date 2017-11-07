@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cami7ord.viaticando.R;
 import com.cami7ord.viaticando.Utilities;
+import com.cami7ord.viaticando.data.Category;
 import com.cami7ord.viaticando.data.Expense;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
 
     private Context mContext;
     private List<Expense> mDataset;
+    private Category[] mCategories;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,9 +41,10 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    ExpensesAdapter(Context context, List myDataset) {
+    ExpensesAdapter(Context context, List myDataset, Category[] categories) {
         mContext = context;
         mDataset = myDataset;
+        mCategories = categories;
     }
 
     // Create new views (invoked by the layout manager)
@@ -61,8 +64,13 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
 
         Expense expense = mDataset.get(position);
 
+        for(int i=0 ; i<mCategories.length ; i++) {
+            if(mCategories[i].getCategoryId() == expense.getCategoryId()) {
+                holder.mExpenseCategory.setText(mCategories[i].getName());
+            }
+        }
+
         holder.mExpenseName.setText(expense.getDescription());
-        holder.mExpenseCategory.setText("" + expense.getCategoryId());
         holder.mExpenseAmount.setText(Utilities.formatPrice(expense.getValue()));
 
         if(!expense.isApproved()) {
