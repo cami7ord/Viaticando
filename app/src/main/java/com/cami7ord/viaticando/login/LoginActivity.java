@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.cami7ord.viaticando.BaseActivity;
@@ -21,6 +22,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         username = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
