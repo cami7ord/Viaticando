@@ -30,8 +30,8 @@
     </style>
 
     <style name="NormalTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/grey_800</item>
-        <item name="colorPrimaryDark">@color/grey_900</item>
+        <item name="colorPrimary">#00a56a</item>
+        <item name="colorPrimaryDark">#008958</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="NormalTheme">

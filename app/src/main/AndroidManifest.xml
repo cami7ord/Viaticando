@@ -33,7 +33,7 @@
             android:theme="@style/NormalTheme" />
         <activity
             android:name=".expenses.ExpensesActivity"
-            android:label="@string/title_activity_expenses"
+            android:label=""
             android:parentActivityName=".trips.TripsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
